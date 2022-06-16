@@ -45,29 +45,26 @@ public class AuthenticationExceptionHandler {
             BindException.class
     })
     public ResponseEntity<ApiError> handleGenericExceptions(Exception ex) {
+        var statusCode = getStatusCode(ex);
 
-
-        return ResponseEntity.badRequest()
+        return ResponseEntity.status(statusCode)
                 .body(new ApiError(ex.getMessage()));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiError> handleBadRequest(BadRequestException ex) {
-
         return ResponseEntity.badRequest()
                 .body(new ApiError(ex.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ApiError> handleUnauthorized(UnauthorizedException ex) {
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ApiError(ex.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleUsernameNotFound(UsernameNotFoundException ex) {
-
         return ResponseEntity.badRequest()
                 .body(new ApiError(ex.getMessage()));
     }

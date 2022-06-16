@@ -21,6 +21,10 @@ public class SessionRepository {
         this.authentication = loginIntent;
     }
 
+    public String getSession(String key) {
+        return session.opsForValue().get(key);
+    }
+
     public String saveSession(String accessToken, long timeout) {
         var key = DigestUtils.sha1DigestAsHex(accessToken);
         session.opsForValue().set(key, accessToken, Duration.ofMillis(timeout));
@@ -28,15 +32,11 @@ public class SessionRepository {
         return key;
     }
 
-    public String getSession(String key) {
-        return session.opsForValue().get(key);
+    public Intent getLoginIntent(String intentId) {
+        return authentication.opsForValue().get(intentId);
     }
 
     public void saveLoginIntent(Intent intent, long timeout) {
         authentication.opsForValue().set(intent.intentId(), intent, Duration.ofMillis(timeout));
-    }
-
-    public Intent getLoginIntent(String intentId) {
-        return authentication.opsForValue().get(intentId);
     }
 }

@@ -29,17 +29,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/pre-login")
-    public ResponseEntity<ApiResponse<AuthenticationIntent>> preLogin(@Validated @RequestBody PreLoginRequest preLoginRequest,
-                                                                      @Validated @RequestHeader("User-Agent") String userAgent) throws BadRequestException {
-        var authenticationIntent = authenticationService.preLogin(preLoginRequest, userAgent);
+    public ResponseEntity<ApiResponse<AuthenticationIntent>> preLogin(@RequestHeader("User-Agent") String userAgent,
+                                                                      @Validated @RequestBody PreLoginRequest preLoginRequest) throws BadRequestException {
+        var authenticationIntent = authenticationService.preLogin(userAgent, preLoginRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(authenticationIntent));
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthenticatedUser>> login(@Validated @RequestBody LoginRequest loginRequest,
-                                                                @Validated @RequestHeader("X-Pan-Intent-Id") String intentId,
-                                                                @Validated @RequestHeader("User-Agent") String userAgent) throws BadRequestException, UnauthorizedException, NotFoundException {
+                                                                @RequestHeader("X-Pan-Intent-Id") String intentId,
+                                                                @RequestHeader("User-Agent") String userAgent) throws BadRequestException, UnauthorizedException, NotFoundException {
         var jwt = this.authenticationService.authenticateUser(loginRequest, intentId, userAgent);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(jwt));
     }

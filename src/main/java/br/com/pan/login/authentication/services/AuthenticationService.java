@@ -36,7 +36,7 @@ public class AuthenticationService {
         this.sessionRepository = sessionRepository;
     }
 
-    public AuthenticationIntent preLogin(PreLoginRequest preLoginRequest, String userAgent) {
+    public AuthenticationIntent preLogin(String userAgent, PreLoginRequest preLoginRequest) {
         var person = personService.getPersonType(preLoginRequest.cpfOrCnpj());
         var keyboard = SecurityService.scrambledKeyboard();
         var intentId = UUID.randomUUID().toString();
