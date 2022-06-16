@@ -11,8 +11,7 @@ services:
       - mongodb
     volumes:
       - ./mongo-seed:/mongo-seed
-    command:
-      /mongo-seed/import.sh
+    command: /mongo-seed/import.sh
   redis:
     image: redis:latest
     restart: always
