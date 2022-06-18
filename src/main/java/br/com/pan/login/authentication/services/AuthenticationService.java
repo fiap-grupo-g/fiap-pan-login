@@ -11,6 +11,7 @@ import br.com.pan.login.authentication.models.Token;
 import br.com.pan.login.authentication.models.request.LoginRequest;
 import br.com.pan.login.authentication.models.request.PreLoginRequest;
 import br.com.pan.login.infrastructure.config.JwtConfig;
+import br.com.pan.login.infrastructure.repository.IntentRepository;
 import br.com.pan.login.infrastructure.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,34 +21,42 @@ import java.util.UUID;
 @Service
 public class AuthenticationService {
 
-    private static final long PRE_LOGIN_TIMEOUT = Duration.ofMinutes(1).toMillis();
+    private static final long PRE_LOGIN_TIMEOUT = Duration.ofMinutes(3).toMillis();
 
     private final JwtConfig jwtConfig;
     private final JwtService jwtService;
     private final PersonService personService;
     private final SecurityService securityService;
+    private final IntentRepository intentRepository;
     private final SessionRepository sessionRepository;
 
-    public AuthenticationService(JwtConfig jwtConfig, JwtService jwtService, PersonService personService, SecurityService securityService, SessionRepository sessionRepository) {
+    public AuthenticationService(JwtConfig jwtConfig, JwtService jwtService,
+                                 PersonService personService, SecurityService securityService,
+                                 IntentRepository intentRepository, SessionRepository sessionRepository) {
         this.jwtConfig = jwtConfig;
         this.jwtService = jwtService;
         this.personService = personService;
         this.securityService = securityService;
+        this.intentRepository = intentRepository;
         this.sessionRepository = sessionRepository;
     }
 
-    public AuthenticationIntent preLogin(String userAgent, PreLoginRequest preLoginRequest) {
+    public AuthenticationIntent preLogin(String userAgent, PreLoginRequest preLoginRequest) throws UnauthorizedException {
+        securityService.isUserBlocked(preLoginRequest.cpfOrCnpj());
+
         var person = personService.getPersonType(preLoginRequest.cpfOrCnpj());
         var keyboard = SecurityService.scrambledKeyboard();
         var intentId = UUID.randomUUID().toString();
 
-        sessionRepository.saveLoginIntent(new Intent(intentId, person, userAgent), PRE_LOGIN_TIMEOUT);
+        intentRepository.saveLoginIntent(new Intent(intentId, person, userAgent), PRE_LOGIN_TIMEOUT);
 
         return new AuthenticationIntent(intentId, keyboard);
     }
 
     public AuthenticatedUser authenticateUser(LoginRequest loginRequest, String intentId, String userAgent) throws BadRequestException, UnauthorizedException, NotFoundException {
-        var intent = sessionRepository.getLoginIntent(intentId);
+        securityService.isUserBlocked(loginRequest.cpfOrCnpj());
+
+        var intent = intentRepository.getLoginIntent(intentId);
         securityService.validateRequestIdentity(intent, userAgent);
         var person = personService.getPerson(intent, loginRequest.cpfOrCnpj());
         securityService.validateScrambledPassword(loginRequest, person.getPassword());
@@ -62,7 +71,6 @@ public class AuthenticationService {
 
         return buildAccessToken(accessToken, shadowToken, session);
     }
-
 
     private AuthenticatedUser buildAccessToken(String accessToken, String shadowToken, Session session) {
         var expiryDate = jwtService.getTokenExpiryDate(accessToken);

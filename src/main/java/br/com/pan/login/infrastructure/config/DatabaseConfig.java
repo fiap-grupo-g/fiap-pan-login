@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 public class DatabaseConfig {
@@ -30,6 +31,15 @@ public class DatabaseConfig {
 
         return template;
     }
+
+    @Bean(name = "accessSecurityControlTemplate")
+    public StringRedisTemplate accessSecurityControlTemplate(RedisConnectionFactory connectionFactory) {
+        var template = new StringRedisTemplate();
+        template.setConnectionFactory(connectionFactory);
+
+        return template;
+    }
+
 
     @Bean
     public MongoTemplate mongoTemplate(MongoClient client) {

@@ -30,7 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/pre-login")
     public ResponseEntity<ApiResponse<AuthenticationIntent>> preLogin(@RequestHeader("User-Agent") String userAgent,
-                                                                      @Validated @RequestBody PreLoginRequest preLoginRequest) throws BadRequestException {
+                                                                      @Validated @RequestBody PreLoginRequest preLoginRequest) throws BadRequestException, UnauthorizedException {
         var authenticationIntent = authenticationService.preLogin(userAgent, preLoginRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(authenticationIntent));
@@ -40,7 +40,7 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse<AuthenticatedUser>> login(@Validated @RequestBody LoginRequest loginRequest,
                                                                 @RequestHeader("X-Pan-Intent-Id") String intentId,
                                                                 @RequestHeader("User-Agent") String userAgent) throws BadRequestException, UnauthorizedException, NotFoundException {
-        var jwt = this.authenticationService.authenticateUser(loginRequest, intentId, userAgent);
+        var jwt = authenticationService.authenticateUser(loginRequest, intentId, userAgent);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(jwt));
     }
 }

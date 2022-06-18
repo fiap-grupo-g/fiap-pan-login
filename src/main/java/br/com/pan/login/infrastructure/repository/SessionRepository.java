@@ -1,7 +1,6 @@
 package br.com.pan.login.infrastructure.repository;
 
 
-import br.com.pan.login.authentication.domain.Intent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DigestUtils;
@@ -13,12 +12,9 @@ import java.time.Duration;
 public class SessionRepository {
 
     private final RedisTemplate<String, String> session;
-    private final RedisTemplate<String, Intent> authentication;
 
-    public SessionRepository(@Qualifier("sessionTemplate") RedisTemplate<String, String> session,
-                             @Qualifier("authenticationTemplate") RedisTemplate<String, Intent> loginIntent) {
+    public SessionRepository(@Qualifier("sessionTemplate") RedisTemplate<String, String> session) {
         this.session = session;
-        this.authentication = loginIntent;
     }
 
     public String getSession(String key) {
@@ -30,13 +26,5 @@ public class SessionRepository {
         session.opsForValue().set(key, accessToken, Duration.ofMillis(timeout));
 
         return key;
-    }
-
-    public Intent getLoginIntent(String intentId) {
-        return authentication.opsForValue().get(intentId);
-    }
-
-    public void saveLoginIntent(Intent intent, long timeout) {
-        authentication.opsForValue().set(intent.intentId(), intent, Duration.ofMillis(timeout));
     }
 }
