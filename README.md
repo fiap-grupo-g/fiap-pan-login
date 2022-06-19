@@ -3,7 +3,7 @@
 Este projeto utiliza MongoDB para armazenar os dados dos clientes Pessoa física e júridica segregadas em duas collections:
 ```regularPerson``` e ```legalPerson``` respectivamente.
 
-Também é utilizado Redis para armezar as intenções de login, onde as mesmas possuem o TTL de 1 minuto para que o usuário tente se autenticar, caso contrário ele não conseguirá performar o login sem antes chamar novamente o endpoint de intenção de login (pre-login).
+Também é utilizado Redis para armezar as intenções de login, onde as mesmas possuem o TTL de 3 minutos para que o usuário tente se autenticar, caso contrário ele não conseguirá performar o login sem antes chamar novamente o endpoint de intenção de login (pre-login).
 
 Quando o usuário consegue se autenticar, a sessão dele fica armazenada dentro do redis e ele recebe um ```Phantom Token``` para trafegar suas requisições.
 
