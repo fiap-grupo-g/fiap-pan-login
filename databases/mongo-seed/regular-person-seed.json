@@ -1,30 +1,30 @@
 [
   {
-    "userName": "dwinter",
     "password": ["$2a$10$DnPupnXNGHX9wW21tZgoVOcu0LeUkQ/iwXEPjLsF3ZrgONhKBhuJq","$2a$10$Ql3hE9kbjo8W5lQ/Q9yTiuMmUmpjulrThDSzZC53eKP1XWsliw42W", "$2a$10$.RpwBl7JFdOf2cwRWsMdq.DxtLAQi9ETbpm.Gnn56EWbE2nUupfL2", "$2a$10$4xUsV7v/2dFAfZjnJ2pdqOV5034rHgonTXBmhWP5cRWm5binzqnE6","$2a$10$BDgf.W64QviAIXHSTN66k.WnVP1goR9F/ZanSHpNAxaYqxp5Rn3qu", "$2a$10$0ub9zWFkTg9Da4hN5jv6Ne1SvxuJ0ejhjZGMwQZXaXhmr0srHjeGC"],
     "firstName": "Douglas",
     "lastName": "Branco",
     "email": "douglasbranco@email.com",
+    "cpf": "80004159098",
     "birthDate": "1990-06-02",
     "gender": "M",
     "isActive": "1"
   },
   {
-    "userName": "lrogerio",
     "password": ["$2a$10$DnPupnXNGHX9wW21tZgoVOcu0LeUkQ/iwXEPjLsF3ZrgONhKBhuJq","$2a$10$Ql3hE9kbjo8W5lQ/Q9yTiuMmUmpjulrThDSzZC53eKP1XWsliw42W", "$2a$10$.RpwBl7JFdOf2cwRWsMdq.DxtLAQi9ETbpm.Gnn56EWbE2nUupfL2", "$2a$10$4xUsV7v/2dFAfZjnJ2pdqOV5034rHgonTXBmhWP5cRWm5binzqnE6","$2a$10$BDgf.W64QviAIXHSTN66k.WnVP1goR9F/ZanSHpNAxaYqxp5Rn3qu", "$2a$10$0ub9zWFkTg9Da4hN5jv6Ne1SvxuJ0ejhjZGMwQZXaXhmr0srHjeGC"],
     "firstName": "Lucio",
     "lastName": "Rogerio",
     "email": "luciorogerio@email.com",
+    "cpf": "97479666039",
     "birthDate": "1990-06-02",
     "gender": "M",
     "isActive": "1"
   },
   {
-    "userName": "tneri",
     "password": ["$2a$10$DnPupnXNGHX9wW21tZgoVOcu0LeUkQ/iwXEPjLsF3ZrgONhKBhuJq","$2a$10$Ql3hE9kbjo8W5lQ/Q9yTiuMmUmpjulrThDSzZC53eKP1XWsliw42W", "$2a$10$.RpwBl7JFdOf2cwRWsMdq.DxtLAQi9ETbpm.Gnn56EWbE2nUupfL2", "$2a$10$4xUsV7v/2dFAfZjnJ2pdqOV5034rHgonTXBmhWP5cRWm5binzqnE6","$2a$10$BDgf.W64QviAIXHSTN66k.WnVP1goR9F/ZanSHpNAxaYqxp5Rn3qu", "$2a$10$0ub9zWFkTg9Da4hN5jv6Ne1SvxuJ0ejhjZGMwQZXaXhmr0srHjeGC"],
     "firstName": "Thiago",
     "lastName": "Neri",
     "email": "thiagoneri@email.com",
+    "cpf": "34476056008",
     "birthDate": "1990-06-02",
     "gender": "M",
     "isActive": "1"
